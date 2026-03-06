@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div th:if="${param.emailError}">
+  This email also exists
+</div>
+<div>
+  <form th:action="@{/save}" th:object="${user}" method="post">
+    <label>
+      Name
+      <input type="text" th:field="*{name}" placeholder="Please enter your name">
+    </label>
+    <label>
+      Email
+      <input type="text" th:field="*{email}" placeholder="Please enter your email">
+    </label>
+    <label>
+      Password
+      <input type="password" th:field="*{password}" placeholder="Please enter your password">
+    </label>
+    <label>
+      Role
+      <select th:field="*{role}">
+        <option value="" disabled selected>-- Select Role --</option>
+        <option value="ROLE_JOB_SEEKER">Job Seeker</option>
+        <option value="ROLE_RECRUITER">Recruiter</option>
+      </select>
+    </label>
+    <label>
+      Submit
+      <input type="submit" placeholder="Submit">
+    </label>
+  </form>
+</div>
+</body>
+</html>
