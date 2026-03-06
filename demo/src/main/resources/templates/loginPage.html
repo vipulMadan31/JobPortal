@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>Login Page</p>
+<div th:if="${param.error}">
+    Invalid Username or Password
+</div>
+
+<form th:action="@{/authenticateTheUser}" method="POST">
+    <label>
+        <input type="text" placeholder="Username" name="username">
+        <input type="password" placeholder="Password" name="password">
+        <input type="submit" placeholder="Submit" value="Login">
+    </label>
+</form>
+</body>
+</html>

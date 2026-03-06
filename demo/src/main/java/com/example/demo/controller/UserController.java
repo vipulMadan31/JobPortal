@@ -20,6 +20,11 @@ public class UserController {
         return "registerPage";
     }
 
+    @GetMapping("/login")
+    public String login(){
+        return "loginPage";
+    }
+
     // very imp should be post
     @PostMapping("/save")
     public String save(@ModelAttribute("user") User user, Model model){
