@@ -21,30 +21,31 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-
     public void save(User user){
         userRepository.save(user);
     }
 
-    public User findById(Integer id) {
-        Optional<User> user = userRepository.findById(id);
-        return user.orElseThrow();
+    public Optional<User> findById(Integer id) {
+        return userRepository.findById(id);
     }
 
     public List<User> findAll(){
         return userRepository.findAll();
     }
 
-    public User findByEmail(String email){
-        return userRepository.findByEmail(email).orElseThrow();
+    public Optional<User> findByEmail(String email){
+        return userRepository.findByEmail(email);
     }
 
     public void remove(String email){
-        userRepository.delete(findByEmail(email));
+        Optional<User> user = findByEmail(email);
+        if(user.isPresent()){
+            userRepository.delete(user.get());
+        }
     }
 
     public boolean isDuplicateEmail(String email) {
-        return userRepository.findByEmail(email).isPresent();
+        return findByEmail(email).isPresent();
     }
 
     public void addNew(User user) {

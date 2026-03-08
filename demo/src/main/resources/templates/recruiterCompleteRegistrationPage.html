@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Complete Registration</title>
+</head>
+<body>
+
+<h2>Complete Job Seeker Profile</h2>
+
+<form th:action="@{/saveRecruiter}" th:object="${recruiter}" method="post">
+
+    <!-- hidden user id -->
+    <input type="hidden" th:field="*{user}" />
+
+    <label>
+        College
+        <input type="text" th:field="*{company}" placeholder="Enter your company"/>
+    </label>
+
+    <br><br>
+
+    <button type="submit">Complete Registration</button>
+
+</form>
+
+</body>
+</html>

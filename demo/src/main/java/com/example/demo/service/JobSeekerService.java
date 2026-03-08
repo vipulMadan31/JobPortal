@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.entity.JobSeeker;
 import com.example.demo.entity.Recruiter;
+import com.example.demo.entity.User;
 import com.example.demo.repository.JobSeekerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,12 +23,17 @@ public class JobSeekerService {
         jobSeekerRepository.save(jobSeeker);
     }
 
-    public JobSeeker findById(Integer id) {
-        Optional<JobSeeker> jobSeeker = jobSeekerRepository.findById(id);
-        return jobSeeker.orElseThrow();
+    public Optional<JobSeeker> findById(Integer id) {
+        return jobSeekerRepository.findById(id);
     }
 
     public List<JobSeeker> findAll(){
         return jobSeekerRepository.findAll();
     }
+
+    public Optional<JobSeeker> findByUser(User user){
+        return jobSeekerRepository.findByUser(user);
+    }
+
+
 }

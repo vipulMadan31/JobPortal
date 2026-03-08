@@ -22,12 +22,7 @@ class JobPortalApplicationTests {
 
 	@Test
 	void contextLoads() {
-		System.out.println(recruiterService.findAll());
-		System.out.println(jobSeekerService.findAll());
-		System.out.println(jobService.findAll());
-		System.out.println(userService.findAll());
-		System.out.println(applicationService.findAll());
-
+		userService.remove("yatin23614@iiitd.ac.in");
 	}
 
 }

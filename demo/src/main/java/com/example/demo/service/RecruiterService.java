@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.Recruiter;
+import com.example.demo.entity.User;
 import com.example.demo.repository.RecruiterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,4 +30,9 @@ public class RecruiterService {
     public List<Recruiter> findAll(){
         return recruiterRepository.findAll();
     }
+
+    public Optional<Recruiter> findByUser (User user){
+        return recruiterRepository.findByUser(user);
+    }
+
 }

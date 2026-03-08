@@ -1,5 +1,9 @@
 package com.example.demo.controller;
+import com.example.demo.entity.JobSeeker;
+import com.example.demo.entity.Recruiter;
 import com.example.demo.entity.User;
+import com.example.demo.service.JobSeekerService;
+import com.example.demo.service.RecruiterService;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +17,10 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private JobSeekerService jobSeekerService;
+    @Autowired
+    private RecruiterService recruiterService;
 
     @GetMapping("/register")
     public String register(Model model){
@@ -36,9 +44,31 @@ public class UserController {
         System.out.println(user);
         userService.addNew(user);
         if(user.getRole().equals("ROLE_JOB_SEEKER")){
-            return "redirect:/jobSeekerDashboard";
+            boolean exists = (jobSeekerService.findByUser(user).isPresent());
+            if(exists){
+                model.addAttribute("jobSeeker", jobSeekerService.findByUser(user));
+                return "jobSeekerDashboardPage";
+            }
+            else{
+                JobSeeker jobSeeker = new JobSeeker();
+                jobSeeker.setUser(user);
+                model.addAttribute("jobSeeker", jobSeeker);
+                return "jobSeekerCompleteRegistrationPage";
+            }
         }
-        return "redirect:/recruiterDashboard";
+        else{
+            boolean exists = (recruiterService.findByUser(user).isPresent());
+            if(exists){
+                model.addAttribute("recruiter", recruiterService.findByUser(user));
+                return "recruiterDashboardPage";
+            }
+            else {
+                Recruiter  recruiter = new Recruiter();
+                recruiter.setUser(user);
+                model.addAttribute("recruiter", recruiter);
+                return "recruiterCompleteRegistrationPage";
+            }
+        }
     }
 
     @GetMapping("/jobSeekerDashboard")
@@ -50,4 +80,21 @@ public class UserController {
     public String getRecruiterDashboard(){
         return "recruiterDashboardPage";
     }
+
+    @PostMapping("/saveJobSeeker")
+    public String saveJobSeeker(@ModelAttribute("jobSeeker") JobSeeker jobSeeker, Model model){
+        jobSeekerService.save(jobSeeker);
+        model.addAttribute(jobSeeker);
+        System.out.print(jobSeeker);
+        return "jobSeekerDashboardPage";
+    }
+
+    @PostMapping("/saveRecruiter")
+    public String saveRecruiter(@ModelAttribute("recruiter") Recruiter recruiter, Model model){
+        recruiterService.save(recruiter);
+        model.addAttribute(recruiter);
+        System.out.print(recruiter);
+        return "recruiterDashboardPage";
+    }
+
 }
