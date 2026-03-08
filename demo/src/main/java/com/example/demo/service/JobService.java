@@ -35,4 +35,8 @@ public class JobService {
     public List<Job> findAll(){
         return jobRepository.findAll();
     }
+
+    public List<Job> findByRecruiter(Recruiter recruiter){
+        return jobRepository.findByRecruiter(recruiter);
+    }
 }

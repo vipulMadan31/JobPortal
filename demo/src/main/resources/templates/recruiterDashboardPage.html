@@ -5,7 +5,14 @@
 </head>
 <body>
 
-Recruiter Page
-
+<form th:action="@{/postJob}">
+  <button type="submit">Post a Job</button>
+</form>
+<!--1) button does not support th:action, so use a form outside it-->
+<!--2) we would need to give recruiter id to the backend, for this the best method is to use :-->
+<!--authentication, since the user is logged in we can just use it.-->
+<form th:action="@{/seePostedJobs}">
+  <button type="submit">See Posted Jobs</button>
+</form>
 </body>
 </html>
