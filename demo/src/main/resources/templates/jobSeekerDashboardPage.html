@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Recruiters</title>
+    <title>Job Seekers</title>
 </head>
 <body>
-Job Seeker Page
+    <form th:action="@{/seeJobs}">
+        <button type="submit">See Jobs</button>
+    </form>
 </body>
 </html>

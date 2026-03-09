@@ -17,7 +17,8 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 @Configuration
 public class SecurityConfig {
 
-    private final String [] publicUrl = {"/register", "/register/**", "/save", "/save/**", "/login", "/login/**","/error"};
+    private final String [] publicUrl = {"/register", "/register/**", "/save", "/save/**",
+            "/login", "/login/**","/error", "/saveJobSeeker", "/saveRecruiter"};
 
 
 
