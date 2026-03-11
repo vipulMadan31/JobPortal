@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Applications</title>
+</head>
+<body>
+
+<h2>Applications for this Job</h2>
+
+<table border="1">
+  <tr th:each="app : ${applications}">
+    <td th:text="${app.id}"></td>
+    <td th:text="${app.jobSeeker.user.name}"></td>
+    <td th:text="${app.jobSeeker.user.email}"></td>
+    <td th:text="${app.jobSeeker.college}"></td>
+    <td th:text="${app.status}"></td>
+
+    <td>
+      <form th:action="@{/updateApplicationStatus}" method="post">
+
+        <input type="hidden" name="applicationId" th:value="${app.id}"/>
+
+        <select name="status">
+          <option value="InProcess" th:selected="${app.status == 'InProcess'}">In Process</option>
+          <option value="Shortlisted" th:selected="${app.status == 'Shortlisted'}">Shortlisted</option>
+          <option value="Selected" th:selected="${app.status == 'Selected'}">Selected</option>
+        </select>
+
+        <button type="submit">Update</button>
+
+      </form>
+    </td>
+  </tr>
+
+</table>
+
+<br>
+
+<a th:href="@{/recruiterDashboard}">Back to Dashboard</a>
+
+</body>
+</html>

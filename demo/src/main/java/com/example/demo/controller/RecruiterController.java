@@ -16,7 +16,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.security.core.*;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Controller
@@ -56,4 +62,34 @@ public class RecruiterController {
         model.addAttribute("jobs", jobService.findByRecruiter(recruiter));
         return "showJobsPage";
     }
+
+    @PostMapping("/addProfilePicture")
+    public String addProfilePicture(@ModelAttribute("file") MultipartFile file,
+                                    @AuthenticationPrincipal CustomUserDetails userDetails) throws IOException {
+        //MultiPart file gives us methods like get size, get name, etc
+
+        // get recruiter
+        User user = userDetails.getUser();
+        Recruiter recruiter = recruiterService.findByUser(user).get();
+        // name the file
+        String fileName = recruiter.getId()+".jpg";
+
+        Path uploadPath = Paths.get("static/photos/Recruiter");
+
+        Files.createDirectories(uploadPath);
+        //this creates the directory if its not present
+
+        Path filePath = uploadPath.resolve(fileName);
+        //this combines upload path with filename
+
+        file.transferTo(filePath);
+        //the filename is written from memory to disk
+
+        recruiter.setProfile(fileName);
+
+        recruiterService.save(recruiter);
+
+        return "redirect:/recruiterDashboard";
+    }
+
 }

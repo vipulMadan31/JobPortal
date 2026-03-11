@@ -56,9 +56,20 @@ public class Recruiter {
     @Column(name = "company")
     private String company;
 
+    public String getProfile() {
+        return profile;
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile;
+    }
+
     @OneToOne
     @JoinColumn(name="user_id")
     private User user;
+
+    @Column(name = "profile")
+    private String profile;
 
 
 }

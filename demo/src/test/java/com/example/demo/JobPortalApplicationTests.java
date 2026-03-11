@@ -22,7 +22,7 @@ class JobPortalApplicationTests {
 
 	@Test
 	void contextLoads() {
-		userService.remove("prateek23390@iiitd.ac.in");
+		userService.remove("vipul23600@iiitd.ac.in");
 	}
 
 }

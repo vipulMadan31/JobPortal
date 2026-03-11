@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.Application;
+import com.example.demo.entity.Job;
+import com.example.demo.entity.JobSeeker;
 import com.example.demo.entity.Recruiter;
 import com.example.demo.repository.ApplicationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,6 @@ import java.util.Optional;
 
 @Service
 public class ApplicationService {
-    @Autowired
     private ApplicationRepository applicationRepository;
 
     public ApplicationService(ApplicationRepository applicationRepository) {
@@ -29,5 +30,13 @@ public class ApplicationService {
 
     public List<Application> findAll(){
         return applicationRepository.findAll();
+    }
+
+    public Optional<Application> findByJobAndSeeker(Job job, JobSeeker jobSeeker){
+        return applicationRepository.findByJobSeekerAndJob(jobSeeker, job);
+    }
+
+    public List<Application> findByJob(Job job){
+        return applicationRepository.findByJob(job);
     }
 }

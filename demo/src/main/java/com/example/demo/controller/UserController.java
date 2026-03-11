@@ -5,7 +5,9 @@ import com.example.demo.entity.User;
 import com.example.demo.service.JobSeekerService;
 import com.example.demo.service.RecruiterService;
 import com.example.demo.service.UserService;
+import com.example.demo.util.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -77,7 +79,12 @@ public class UserController {
     }
 
     @GetMapping("/recruiterDashboard")
-    public String getRecruiterDashboard(){
+    public String getRecruiterDashboard(Model model, @AuthenticationPrincipal CustomUserDetails
+                                        userDetails){
+
+        User user = userDetails.getUser();
+        Recruiter recruiter = recruiterService.findByUser(user).get();
+        model.addAttribute("recruiter", recruiter);
         return "recruiterDashboardPage";
     }
 

@@ -15,6 +15,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class JobController {
@@ -40,9 +44,36 @@ public class JobController {
         Job job = jobService.findById(id);
         User user = userDetails.getUser();
         JobSeeker jobSeeker = jobSeekerService.findByUser(user).get();
-        Application application = new Application("InProcess", job, jobSeeker);
+        if(applicationService.findByJobAndSeeker(job, jobSeeker).isPresent()){
+            model.addAttribute("message", "You have already applied");
+        }
+        else{
+            Application application = new Application("InProcess", job, jobSeeker);
+            applicationService.save(application);
+            System.out.println(application);
+            model.addAttribute("message", "Application Successful");
+        }
+        return "appliedPage";
+    }
+
+    @GetMapping("/seeApplications")
+    public String seeApplications(@ModelAttribute("id") Integer id, Model model){
+        Job job = jobService.findById(id);
+        List<Application> applications = applicationService.findByJob(job);
+        model.addAttribute("applications", applications);
+        return "seeApplicationsPage";
+    }
+
+    @PostMapping("/updateApplicationStatus")
+    public String updateApplicationStatus(@RequestParam Integer applicationId,
+                                          @RequestParam String status){
+
+        Application application = applicationService.findById(applicationId);
+
+        application.setStatus(status);
+
         applicationService.save(application);
-        System.out.println(application);
-        return "redirect:/jobSeekerDashboard";
+
+        return "redirect:/seeApplications?id=" + application.getJob().getId();
     }
 }

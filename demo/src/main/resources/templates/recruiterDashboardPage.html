@@ -14,5 +14,17 @@
 <form th:action="@{/seePostedJobs}">
   <button type="submit">See Posted Jobs</button>
 </form>
+
+<form th:if="${recruiter.profile == null}" th:action="@{/addProfilePicture}" method="post" enctype="multipart/form-data">
+  <input type="file" name="file"/>
+  <button type="submit">Add Profile Picture</button>
+</form>
+<!--post method,  multipart and input type=file is neccessary for uploading photo-->
+
+<!--  to show the image :-->
+<img th:if="${recruiter.profile != null}"
+     th:src="@{photos/Recruiter/{file}(file=${recruiter.profile})}"
+     width="150">
+<!--  what this does is : attaches the link of the image, and then in file inserts our file name-->
 </body>
 </html>
