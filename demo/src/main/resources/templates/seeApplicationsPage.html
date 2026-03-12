@@ -30,6 +30,14 @@
 
       </form>
     </td>
+    <td>
+      <form th:if="${app.jobSeeker.resume != null}" th:action="@{/viewApplicantResume}" target="_blank">
+        <input type="hidden" th:value="${app.jobSeeker.id}" name="id">
+        <button type="submit">View Resume</button>
+      </form>
+
+      <div th:if="${app.jobSeeker.resume == null}"> Resume not available</div>
+    </td>
   </tr>
 
 </table>

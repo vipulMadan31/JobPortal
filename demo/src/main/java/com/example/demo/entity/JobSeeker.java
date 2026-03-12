@@ -19,6 +19,16 @@ public class JobSeeker {
     @JoinColumn(name="user_id")
     private User user;
 
+    @Column(name="resume")
+    private String resume;
+
+    public String getResume() {
+        return resume;
+    }
+
+    public void setResume(String resume) {
+        this.resume = resume;
+    }
 
     @Override
     public String toString() {

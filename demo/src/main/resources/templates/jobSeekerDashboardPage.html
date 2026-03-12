@@ -7,5 +7,15 @@
     <form th:action="@{/seeJobs}">
         <button type="submit">See Jobs</button>
     </form>
+
+    <form th:if = "${jobSeeker.resume == null}"th:action="@{/uploadResume}" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <button type="submit">Upload Resume</button>
+    </form>
+
+    <form th:if = "${jobSeeker.resume != null}" th:action="@{/viewResume}" target="_blank">
+<!--        target = blank opens this in a new tab-->
+        <button type="submit">View Resume</button>
+    </form>
 </body>
 </html>

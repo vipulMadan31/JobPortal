@@ -1,13 +1,20 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.Job;
+import com.example.demo.entity.JobSeeker;
 import com.example.demo.entity.Recruiter;
 import com.example.demo.entity.User;
+import com.example.demo.service.JobSeekerService;
 import com.example.demo.service.JobService;
 import com.example.demo.service.RecruiterService;
 import com.example.demo.service.UserService;
 import com.example.demo.util.CustomUserDetails;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -20,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -36,6 +44,9 @@ public class RecruiterController {
 
     @Autowired
     private JobService jobService;
+
+    @Autowired
+    private JobSeekerService jobSeekerService;
 
     @GetMapping("/postJob")
     public String postJob(Authentication authentication, Model model){
@@ -90,6 +101,19 @@ public class RecruiterController {
         recruiterService.save(recruiter);
 
         return "redirect:/recruiterDashboard";
+    }
+
+    @GetMapping("/viewApplicantResume")
+    public ResponseEntity<Resource> viewApplicantResume(@ModelAttribute("id") Integer jobSeekerId) throws MalformedURLException {
+        JobSeeker jobSeeker = jobSeekerService.findById(jobSeekerId).get();
+        String resume = jobSeeker.getResume();
+
+        Path resumePath = Paths.get("static/photos/jobSeeker").resolve(resume);
+        Resource resource = new UrlResource(resumePath.toUri());
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_PDF).
+                body(resource);
     }
 
 }

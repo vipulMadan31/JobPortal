@@ -74,7 +74,11 @@ public class UserController {
     }
 
     @GetMapping("/jobSeekerDashboard")
-    public String getJobSeekerDashboard(){
+    public String getJobSeekerDashboard(Model model, @AuthenticationPrincipal CustomUserDetails
+            userDetails){
+        User user = userDetails.getUser();
+        JobSeeker jobSeeker = jobSeekerService.findByUser(user).get();
+        model.addAttribute("jobSeeker", jobSeeker);
         return "jobSeekerDashboardPage";
     }
 
