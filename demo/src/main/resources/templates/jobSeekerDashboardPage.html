@@ -4,6 +4,9 @@
     <title>Job Seekers</title>
 </head>
 <body>
+    <div th:if="${param.ResumeError}">
+        The file is empty
+    </div>
     <form th:action="@{/seeJobs}">
         <button type="submit">See Jobs</button>
     </form>
@@ -17,5 +20,10 @@
 <!--        target = blank opens this in a new tab-->
         <button type="submit">View Resume</button>
     </form>
+    <form th:action="@{/seeApplicationHistory}">
+        <button type="submit">See Application History</button>
+    </form>
+
+    <a th:href="@{/logout}">Logout</a>
 </body>
 </html>

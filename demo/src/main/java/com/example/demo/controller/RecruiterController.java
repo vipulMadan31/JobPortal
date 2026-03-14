@@ -76,31 +76,28 @@ public class RecruiterController {
 
     @PostMapping("/addProfilePicture")
     public String addProfilePicture(@ModelAttribute("file") MultipartFile file,
-                                    @AuthenticationPrincipal CustomUserDetails userDetails) throws IOException {
+                                    @AuthenticationPrincipal CustomUserDetails userDetails,
+                                    Model model) throws IOException {
         //MultiPart file gives us methods like get size, get name, etc
-
         // get recruiter
         User user = userDetails.getUser();
         Recruiter recruiter = recruiterService.findByUser(user).get();
         // name the file
         String fileName = recruiter.getId()+".jpg";
-
         Path uploadPath = Paths.get("static/photos/Recruiter");
-
         Files.createDirectories(uploadPath);
         //this creates the directory if its not present
-
         Path filePath = uploadPath.resolve(fileName);
         //this combines upload path with filename
-
         file.transferTo(filePath);
         //the filename is written from memory to disk
-
+        if(file.isEmpty()){
+            return "redirect:/recruiterDashboard?imageError";
+        }
         recruiter.setProfile(fileName);
-
         recruiterService.save(recruiter);
-
         return "redirect:/recruiterDashboard";
+
     }
 
     @GetMapping("/viewApplicantResume")

@@ -39,4 +39,12 @@ public class ApplicationService {
     public List<Application> findByJob(Job job){
         return applicationRepository.findByJob(job);
     }
+
+    public List<Application> findByJobSeeker(JobSeeker jobSeeker){
+        return applicationRepository.findByJobSeeker(jobSeeker);
+    }
+
+    public List<Application> findByJobSeekerSorted(JobSeeker jobSeeker){
+        return applicationRepository.findByJobSeekerOrderByCreationTimeDesc(jobSeeker);
+    }
 }

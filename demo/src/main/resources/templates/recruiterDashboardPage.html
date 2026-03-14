@@ -4,7 +4,9 @@
   <title>Recruiters</title>
 </head>
 <body>
-
+<div th:if="${param.imageError}">
+  The image is empty
+</div>
 <form th:action="@{/postJob}">
   <button type="submit">Post a Job</button>
 </form>
@@ -26,5 +28,6 @@
      th:src="@{photos/Recruiter/{file}(file=${recruiter.profile})}"
      width="150">
 <!--  what this does is : attaches the link of the image, and then in file inserts our file name-->
+<a th:href="@{/logout}">Logout</a>
 </body>
 </html>

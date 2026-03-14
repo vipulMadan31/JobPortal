@@ -6,7 +6,7 @@
 </head>
 <body>
 <div th:if="${param.emailError}">
-  This email also exists
+  This email already exists
 </div>
 <div>
   <form th:action="@{/save}" th:object="${user}" method="post">

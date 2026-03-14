@@ -1,10 +1,13 @@
 package com.example.demo;
 
+import com.example.demo.entity.Recruiter;
 import com.example.demo.repository.RecruiterRepository;
 import com.example.demo.service.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.time.LocalTime;
 
 @SpringBootTest
 class JobPortalApplicationTests {
@@ -22,7 +25,7 @@ class JobPortalApplicationTests {
 
 	@Test
 	void contextLoads() {
-		userService.remove("vipul23600@iiitd.ac.in");
+
 	}
 
 }

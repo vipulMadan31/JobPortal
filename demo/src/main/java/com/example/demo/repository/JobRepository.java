@@ -12,4 +12,10 @@ import java.util.Optional;
 public interface JobRepository extends JpaRepository<Job, Integer> {
     public List<Job> findByRecruiter(Recruiter recruiter);
     //here, we write list coz of one to many mapping
+
+    List<Job> findByTitleContainingIgnoreCaseOrRecruiterCompanyContainingIgnoreCase(
+            String title, String company
+    );
+
+    //this tries to find the req title and company in our thing
 }

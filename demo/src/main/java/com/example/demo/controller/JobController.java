@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +50,7 @@ public class JobController {
             model.addAttribute("message", "You have already applied");
         }
         else{
-            Application application = new Application("InProcess", job, jobSeeker);
+            Application application = new Application("inProcess", LocalDateTime.now(), job, jobSeeker );
             applicationService.save(application);
             System.out.println(application);
             model.addAttribute("message", "Application Successful");

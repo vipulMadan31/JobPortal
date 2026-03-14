@@ -2,6 +2,9 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 @Entity
 @Table(name="applications")
 public class Application {
@@ -22,12 +25,6 @@ public class Application {
         this.id = id;
     }
 
-    public Application(Integer id, String status, Job job, JobSeeker jobSeeker) {
-        this.id = id;
-        this.status = status;
-        this.job = job;
-        this.jobSeeker = jobSeeker;
-    }
 
     public String getStatus() {
         return status;
@@ -56,10 +53,16 @@ public class Application {
     @Column(name="status")
     private String status;
 
-    public Application(String status, Job job, JobSeeker jobSeeker) {
-        this.status = status;
-        this.job = job;
-        this.jobSeeker = jobSeeker;
+    @Column(name="creation_time")
+    LocalDateTime creationTime;
+
+
+    public LocalDateTime getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(LocalDateTime creationTime) {
+        this.creationTime = creationTime;
     }
 
     @Override
@@ -67,9 +70,17 @@ public class Application {
         return "Application{" +
                 "id=" + id +
                 ", status='" + status + '\'' +
+                ", creationTime=" + creationTime +
                 ", job=" + job +
                 ", jobSeeker=" + jobSeeker +
                 '}';
+    }
+
+    public Application(String status, LocalDateTime creationTime, Job job, JobSeeker jobSeeker) {
+        this.status = status;
+        this.creationTime = creationTime;
+        this.job = job;
+        this.jobSeeker = jobSeeker;
     }
 
     @OneToOne

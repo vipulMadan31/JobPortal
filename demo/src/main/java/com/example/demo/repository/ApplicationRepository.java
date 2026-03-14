@@ -13,4 +13,7 @@ import java.util.Optional;
 public interface ApplicationRepository extends JpaRepository<Application, Integer> {
     Optional<Application> findByJobSeekerAndJob(JobSeeker jobSeeker, Job job);
     List<Application> findByJob(Job job);
+    List<Application> findByJobSeeker(JobSeeker jobSeeker);
+    List<Application> findByJobSeekerOrderByCreationTimeDesc(JobSeeker jobSeeker);
+    //the order is opposite to what you would expect
 }

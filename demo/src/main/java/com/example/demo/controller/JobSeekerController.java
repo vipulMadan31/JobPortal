@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
+import com.example.demo.entity.Application;
 import com.example.demo.entity.JobSeeker;
 import com.example.demo.entity.User;
+import com.example.demo.service.ApplicationService;
 import com.example.demo.service.JobSeekerService;
 import com.example.demo.util.CustomUserDetails;
 import org.springframework.core.io.Resource;
@@ -12,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,12 +25,16 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 @Controller
 public class JobSeekerController {
 
     @Autowired
     private JobSeekerService jobSeekerService;
+
+    @Autowired
+    private ApplicationService applicationService;
 
     @PostMapping("/uploadResume")
     public String uploadResume(@ModelAttribute("file") MultipartFile file, @AuthenticationPrincipal
@@ -48,10 +55,11 @@ public class JobSeekerController {
 
         file.transferTo(filePath);
 
+        if(file.isEmpty()){
+            return "redirect:/jobSeekerDashboard?ResumeError";
+        }
         jobSeeker.setResume(filename);
-
         jobSeekerService.save(jobSeeker);
-
         return "redirect:/jobSeekerDashboard";
     }
 
@@ -68,5 +76,15 @@ public class JobSeekerController {
         return ResponseEntity.ok() // say request successful
                 .contentType(MediaType.APPLICATION_PDF) // type = pdf
                 .body(resource); // its body is resource
+    }
+
+    @GetMapping("/seeApplicationHistory")
+    public String seeApplicationHistory(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                        Model model){
+        User user = userDetails.getUser();
+        JobSeeker jobSeeker = jobSeekerService.findByUser(user).get();
+        List<Application> applications = applicationService.findByJobSeekerSorted(jobSeeker);
+        model.addAttribute("applications", applications);
+        return "seeApplicationHistoryPage";
     }
 }

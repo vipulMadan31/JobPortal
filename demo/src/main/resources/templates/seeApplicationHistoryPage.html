@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Application History</title>
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <th>Job Seeker</th>
+            <th>Recruiter</th>
+            <th>Job Title</th>
+            <th>Status</th>
+            <th>Applied at</th>
+        </tr>
+        <tr th:each="app : ${applications}">
+        <td th:text="${app.jobSeeker.user.name}">
+        <td th:text="${app.job.recruiter.user.name}">
+        <td th:text="${app.job.title}">
+        <td th:text="${app.status}">
+        <td th:text="${app.creationTime}">
+    </table>
+
+    <a th:href="@{/jobSeekerDashboard}">Back to Dashboard</a>
+
+
+</body>
+</html>
