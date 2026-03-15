@@ -30,6 +30,12 @@ public class Job {
     @Column(name="description")
     private String description;
 
+    @Column(name="location")
+    private String location;
+
+    @Column(name="Salary")
+    private Integer salary;
+
     @JoinColumn(name="recruiter_id")
     @ManyToOne
     private Recruiter recruiter;
@@ -37,6 +43,31 @@ public class Job {
     //there is one more reason for making the side which cannot exist alone the owner
     //you can have this (coz ek hi rec pe jaayega), so no need for any extra things
     //as we will have one sided relation, dont mention job in recruiter class
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public Integer getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Integer salary) {
+        this.salary = salary;
+    }
+
+    public Job(Integer id, String title, String description, String location, Integer salary, Recruiter recruiter) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.location = location;
+        this.salary = salary;
+        this.recruiter = recruiter;
+    }
 
     public Job(Integer id, String title, String description, Recruiter recruiter) {
         this.id = id;

@@ -6,19 +6,21 @@
 <body>
 
 <h2>Available Jobs</h2>
-
 <table border="1">
     <tr>
-        <th>Job ID</th>
         <th>Title</th>
         <th>Description</th>
+        <th>Location</th>
+        <th>Salary</th>
         <th>Apply</th>
     </tr>
 
     <tr th:each="job : ${jobs}">
-        <td th:text="${job.id}"></td>
-        <td th:text="${job.title}"></td>
-        <td th:text="${job.description}"></td>
+        <td th:text="${job.title ?: '-' }"></td>
+<!--        this is equivalent to saying hai toh display krdo-->
+        <td th:text="${job.description ?:  '-' }"></td>
+        <td th:text="${job.location ?:  '-' }"></td>
+        <td th:text="${job.salary ?:  '-' }"></td>
 <!--        we want to add an apply button, also note that we would have to send back the job id-->
 <!--        M1 : add in the link-->
 <!--        M2 (better) : use hidden job id-->

@@ -5,6 +5,7 @@ import com.example.demo.entity.Recruiter;
 import com.example.demo.entity.User;
 import com.example.demo.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,5 +39,19 @@ public class JobService {
 
     public List<Job> findByRecruiter(Recruiter recruiter){
         return jobRepository.findByRecruiter(recruiter);
+    }
+
+    public List<Job> getJobs(String keyword, String sort) {
+        Sort sorting;
+        if(sort.equals("salary")){
+            sorting = Sort.by("salary").descending();
+        }
+        else{
+            sorting = Sort.unsorted();
+        }
+
+        return jobRepository.findByTitleContainingIgnoreCaseOrRecruiterCompanyContainingIgnoreCaseOrLocationContainingIgnoreCase(
+          keyword, keyword, keyword, sorting
+        );
     }
 }

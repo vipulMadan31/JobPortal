@@ -2,6 +2,7 @@ package com.example.demo.repository;
 
 import com.example.demo.entity.Job;
 import com.example.demo.entity.Recruiter;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,9 +14,8 @@ public interface JobRepository extends JpaRepository<Job, Integer> {
     public List<Job> findByRecruiter(Recruiter recruiter);
     //here, we write list coz of one to many mapping
 
-    List<Job> findByTitleContainingIgnoreCaseOrRecruiterCompanyContainingIgnoreCase(
-            String title, String company
+    List<Job> findByTitleContainingIgnoreCaseOrRecruiterCompanyContainingIgnoreCaseOrLocationContainingIgnoreCase(
+            String title, String company, String location, Sort sorting
     );
 
-    //this tries to find the req title and company in our thing
 }

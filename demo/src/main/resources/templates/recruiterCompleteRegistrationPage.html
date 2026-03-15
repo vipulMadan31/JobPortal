@@ -5,7 +5,7 @@
 </head>
 <body>
 
-<h2>Complete Job Seeker Profile</h2>
+<h2>Complete Recruiter Profile</h2>
 
 <form th:action="@{/saveRecruiter}" th:object="${recruiter}" method="post">
 
@@ -13,7 +13,7 @@
     <input type="hidden" th:field="*{user}" />
 
     <label>
-        College
+        Company
         <input type="text" th:field="*{company}" placeholder="Enter your company"/>
     </label>
 

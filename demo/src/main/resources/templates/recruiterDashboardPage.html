@@ -17,6 +17,9 @@
   <button type="submit">See Posted Jobs</button>
 </form>
 
+<div>Hi</div>
+<div th:text="${recruiter.user.name}"></div>
+
 <form th:if="${recruiter.profile == null}" th:action="@{/addProfilePicture}" method="post" enctype="multipart/form-data">
   <input type="file" name="file"/>
   <button type="submit">Add Profile Picture</button>
