@@ -41,11 +41,18 @@ public class JobSeekerController {
     public String uploadResume(@ModelAttribute("file") MultipartFile file, @AuthenticationPrincipal
                                CustomUserDetails userDetails) throws IOException {
 
+        if(file.isEmpty()){
+            return "redirect:/jobSeekerDashboard?ResumeError";
+        }
+        if(file.getSize()>1024*1024*5){
+            return "redirect:/jobSeekerDashboard?resumeSizeError";
+        }
+
         User user = userDetails.getUser();
         JobSeeker jobSeeker = jobSeekerService.findByUser(user).get();
 
         System.out.println(file.isEmpty());
-        System.out.println(file.getSize());
+
 
         String filename = jobSeeker.getId() + ".pdf";
         Path uploadPath = Paths.get("static/photos/JobSeeker");
@@ -56,9 +63,6 @@ public class JobSeekerController {
 
         file.transferTo(filePath);
 
-        if(file.isEmpty()){
-            return "redirect:/jobSeekerDashboard?ResumeError";
-        }
         jobSeeker.setResume(filename);
         jobSeekerService.save(jobSeeker);
         return "redirect:/jobSeekerDashboard";
