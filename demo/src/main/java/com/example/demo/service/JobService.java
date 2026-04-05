@@ -5,6 +5,9 @@ import com.example.demo.entity.Recruiter;
 import com.example.demo.entity.User;
 import com.example.demo.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +44,7 @@ public class JobService {
         return jobRepository.findByRecruiter(recruiter);
     }
 
-    public List<Job> getJobs(String keyword, String sort) {
+    public Page<Job> getJobs(String keyword, String sort, Integer page) {
         Sort sorting;
         if(sort.equals("salary")){
             sorting = Sort.by("salary").descending();
@@ -50,8 +53,9 @@ public class JobService {
             sorting = Sort.unsorted();
         }
 
+        Pageable pageable = PageRequest.of(page, 10, sorting);
         return jobRepository.findByTitleContainingIgnoreCaseOrRecruiterCompanyContainingIgnoreCaseOrLocationContainingIgnoreCase(
-          keyword, keyword, keyword, sorting
+          keyword, keyword, keyword, pageable
         );
     }
 }

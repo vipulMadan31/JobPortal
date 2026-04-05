@@ -4,6 +4,8 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 @Entity
 @Table(name="job_seekers")
 public class JobSeeker {

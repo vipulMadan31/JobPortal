@@ -1,36 +1,135 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Recruiters</title>
+  <title>Recruiter Dashboard</title>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
 </head>
-<body>
-<div th:if="${param.imageError}">
-  The image is empty
+
+<body class="bg-gray-100 min-h-screen">
+
+<!-- Navbar -->
+<nav class="bg-white shadow-md px-6 py-4 flex justify-between items-center">
+  <h1 class="text-lg font-semibold text-gray-800">Recruiter Panel</h1>
+
+  <a th:href="@{/logout}"
+     class="text-sm text-red-500 font-medium hover:underline">
+    Logout
+  </a>
+</nav>
+
+<!-- Container -->
+<div class="max-w-4xl mx-auto mt-10 px-4">
+
+  <!-- Error -->
+  <div th:if="${param.imageError}"
+       class="bg-red-100 text-red-700 px-4 py-2 rounded-lg mb-4 text-sm">
+    The image is empty
+  </div>
+
+  <!-- Profile Card -->
+  <div class="bg-white rounded-2xl shadow-md p-6 mb-6 flex items-center gap-6">
+
+    <!-- Profile Image -->
+    <div>
+      <img th:if="${recruiter.profile != null}"
+           th:src="@{photos/Recruiter/{file}(file=${recruiter.profile})}"
+           class="w-20 h-20 rounded-full object-cover border">
+
+      <!-- Placeholder if no image -->
+      <div th:if="${recruiter.profile == null}"
+           class="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
+        No Image
+      </div>
+    </div>
+
+    <!-- Name -->
+    <div>
+      <h2 class="text-xl font-semibold text-gray-800">
+        Welcome,
+        <span th:text="${recruiter.user.name}"></span> 👋
+      </h2>
+      <p class="text-gray-500 text-sm">
+        Manage your jobs and hiring process
+      </p>
+    </div>
+
+  </div>
+
+  <!-- Profile Upload -->
+  <div th:if="${recruiter.profile == null}"
+       class="bg-white rounded-2xl shadow-md p-6 mb-6">
+
+    <h3 class="text-lg font-semibold text-gray-800 mb-3">
+      Add Profile Picture
+    </h3>
+
+    <form th:action="@{/addProfilePicture}"
+          method="post"
+          enctype="multipart/form-data"
+          class="space-y-3">
+
+      <input type="file" name="file"
+             class="w-full text-sm border border-gray-300 rounded-lg p-2">
+
+      <button type="submit"
+              class="bg-indigo-600 text-white px-4 py-2 rounded-lg
+                       hover:bg-indigo-700 transition">
+        Upload Image
+      </button>
+
+    </form>
+  </div>
+
+  <!-- Actions -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+    <!-- Post Job -->
+    <div class="bg-white p-6 rounded-2xl shadow-md flex flex-col justify-between">
+      <h3 class="text-lg font-semibold text-gray-800 mb-2">
+        Post a Job
+      </h3>
+      <p class="text-gray-500 text-sm mb-4">
+        Create new job listings for candidates
+      </p>
+
+      <form th:action="@{/postJob}">
+        <button type="submit"
+                class="w-full bg-indigo-600 text-white py-2 rounded-lg font-medium hover:bg-indigo-700 transition">
+          Post Job
+        </button>
+      </form>
+    </div>
+
+    <!-- See Posted Jobs -->
+    <div class="bg-white p-6 rounded-2xl shadow-md flex flex-col justify-between">
+      <h3 class="text-lg font-semibold text-gray-800 mb-2">
+        Your Jobs
+      </h3>
+      <p class="text-gray-500 text-sm mb-4">
+        View and manage jobs you have posted
+      </p>
+
+      <form th:action="@{/seePostedJobs}">
+        <button type="submit"
+                class="w-full bg-purple-600 text-white py-2 rounded-lg font-medium hover:bg-purple-700 transition">
+          See Posted Jobs
+        </button>
+      </form>
+    </div>
+
+  </div>
+
 </div>
-<form th:action="@{/postJob}">
-  <button type="submit">Post a Job</button>
-</form>
-<!--1) button does not support th:action, so use a form outside it-->
-<!--2) we would need to give recruiter id to the backend, for this the best method is to use :-->
-<!--authentication, since the user is logged in we can just use it.-->
-<form th:action="@{/seePostedJobs}">
-  <button type="submit">See Posted Jobs</button>
-</form>
 
-<div>Hi</div>
-<div th:text="${recruiter.user.name}"></div>
-
-<form th:if="${recruiter.profile == null}" th:action="@{/addProfilePicture}" method="post" enctype="multipart/form-data">
-  <input type="file" name="file"/>
-  <button type="submit">Add Profile Picture</button>
-</form>
-<!--post method,  multipart and input type=file is neccessary for uploading photo-->
-
-<!--  to show the image :-->
-<img th:if="${recruiter.profile != null}"
-     th:src="@{photos/Recruiter/{file}(file=${recruiter.profile})}"
-     width="150">
-<!--  what this does is : attaches the link of the image, and then in file inserts our file name-->
-<a th:href="@{/logout}">Logout</a>
 </body>
 </html>

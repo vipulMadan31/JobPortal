@@ -3,26 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <title>Application History</title>
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
 </head>
-<body>
-    <table border="1">
-        <tr>
-            <th>Job Seeker</th>
-            <th>Recruiter</th>
-            <th>Job Title</th>
-            <th>Status</th>
-            <th>Applied at</th>
-        </tr>
-        <tr th:each="app : ${applications}">
-        <td th:text="${app.jobSeeker.user.name}">
-        <td th:text="${app.job.recruiter.user.name}">
-        <td th:text="${app.job.title}">
-        <td th:text="${app.status}">
-        <td th:text="${app.creationTime}">
-    </table>
 
-    <a th:href="@{/jobSeekerDashboard}">Back to Dashboard</a>
+<body class="bg-gray-100 min-h-screen">
 
+<!-- Navbar -->
+<nav class="bg-white shadow-md px-6 py-4 flex justify-between items-center">
+    <h1 class="text-lg font-semibold text-gray-800">Application History</h1>
+
+    <a th:href="@{/jobSeekerDashboard}"
+       class="text-sm text-indigo-600 font-medium hover:underline">
+        Dashboard
+    </a>
+</nav>
+
+<!-- Container -->
+<div class="max-w-6xl mx-auto mt-10 px-4">
+
+    <!-- Card -->
+    <div class="bg-white rounded-2xl shadow-md p-6">
+
+        <!-- Title -->
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">
+            Your Applications
+        </h2>
+
+        <!-- Empty State -->
+        <div th:if="${#lists.isEmpty(applications)}"
+             class="text-center text-gray-500 py-10">
+            No applications found.
+        </div>
+
+        <!-- Table -->
+        <div th:if="${!#lists.isEmpty(applications)}" class="overflow-x-auto">
+            <table class="min-w-full border border-gray-200 rounded-lg overflow-hidden">
+
+                <!-- Header -->
+                <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Job Seeker</th>
+                    <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Recruiter</th>
+                    <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Job Title</th>
+                    <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Status</th>
+                    <th class="px-4 py-2 text-left text-sm font-semibold text-gray-600">Applied At</th>
+                </tr>
+                </thead>
+
+                <!-- Body -->
+                <tbody class="divide-y">
+
+                <tr th:each="app : ${applications}" class="hover:bg-gray-50">
+
+                    <td class="px-4 py-2 text-sm text-gray-700"
+                        th:text="${app.jobSeeker.user.name}">
+                    </td>
+
+                    <td class="px-4 py-2 text-sm text-gray-700"
+                        th:text="${app.job.recruiter.user.name}">
+                    </td>
+
+                    <td class="px-4 py-2 text-sm font-medium text-gray-800"
+                        th:text="${app.job.title}">
+                    </td>
+
+                    <!-- Status Badge -->
+                    <td class="px-4 py-2 text-sm">
+                                <span th:text="${app.status}"
+                                      class="px-2 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-700">
+                                </span>
+                    </td>
+
+                    <td class="px-4 py-2 text-sm text-gray-600"
+                        th:text="${app.creationTime}">
+                    </td>
+
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>
 
 </body>
 </html>

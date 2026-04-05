@@ -10,6 +10,9 @@ import com.example.demo.service.JobSeekerService;
 import com.example.demo.service.JobService;
 import com.example.demo.util.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -41,9 +44,12 @@ public class JobController {
 
 
     @GetMapping("/seeJobs")
-    public String seeJobs(@ModelAttribute("keyword") String keyword, @ModelAttribute("sort") String sort, Model model){
-        List<Job> jobs = jobService.getJobs(keyword, sort);
-        model.addAttribute("jobs", jobs);
+    public String seeJobs(@ModelAttribute("keyword") String keyword, @ModelAttribute("sort") String sort,
+                          Model model, @RequestParam(defaultValue = "0") Integer page){
+        Page<Job> jobs = jobService.getJobs(keyword, sort, page);
+        model.addAttribute("jobs", jobs.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", jobs.getTotalPages());
         return "jobsDisplayPage";
     }
 

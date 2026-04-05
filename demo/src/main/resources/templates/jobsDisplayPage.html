@@ -7,23 +7,12 @@
 
 <h2>Available Jobs</h2>
 <table border="1">
-    <tr>
-        <th>Title</th>
-        <th>Description</th>
-        <th>Location</th>
-        <th>Salary</th>
-        <th>Apply</th>
-    </tr>
-
     <tr th:each="job : ${jobs}">
-        <td th:text="${job.title ?: '-' }"></td>
-<!--        this is equivalent to saying hai toh display krdo-->
-        <td th:text="${job.description ?:  '-' }"></td>
-        <td th:text="${job.location ?:  '-' }"></td>
-        <td th:text="${job.salary ?:  '-' }"></td>
-<!--        we want to add an apply button, also note that we would have to send back the job id-->
-<!--        M1 : add in the link-->
-<!--        M2 (better) : use hidden job id-->
+        <td th:text="${job.title ?: '-'}"></td>
+        <td th:text="${job.description ?: '-'}"></td>
+        <td th:text="${job.location ?: '-'}"></td>
+        <td th:text="${job.salary ?: '-'}"></td>
+
         <td>
             <form th:action="@{/applyJob}" method="post">
                 <input type="hidden" name="jobId" th:value="${job.id}">
@@ -31,6 +20,27 @@
             </form>
         </td>
     </tr>
+</table>
+
+<div>
+
+    <a th:if="${currentPage > 0}"
+       th:href="@{/seeJobs(page=${currentPage-1})}">
+        Previous
+    </a>
+
+    <span th:each="i : ${#numbers.sequence(0, totalPages-1)}">
+    <a th:href="@{/seeJobs(page=${i})}"
+       th:text="${i+1}">
+    </a>
+</span>
+
+    <a th:if="${currentPage < totalPages-1}"
+       th:href="@{/seeJobs(page=${currentPage+1})}">
+        Next
+    </a>
+
+</div>
 <!--    this will submit this to the backend-->
 </table>
 
